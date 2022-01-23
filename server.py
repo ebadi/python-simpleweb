@@ -47,7 +47,8 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(bytes(str(redirect) , encoding='utf8' ))
         return
 
-with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
+socketserver.TCPServer.allow_reuse_address = True
+httpd =  socketserver.TCPServer(("", PORT), MyHandler)
+print("serving at port", PORT)
+httpd.serve_forever()
 
